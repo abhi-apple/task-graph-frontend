@@ -4,11 +4,8 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/store/store';
 import { fetchCustomerTypeData } from '@/store/slices/customerTypeSlice';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, Typography, Box, CircularProgress, Alert } from '@mui/material';
 import { CustomerTypeChart } from "@/components/charts/customer-type-chart"
-import { AlertTriangle } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Skeleton } from '@/components/ui/skeleton';
 
 export function CustomerTypeCard() {
   const dispatch = useDispatch<AppDispatch>();
@@ -22,24 +19,14 @@ export function CustomerTypeCard() {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Customer Type</CardTitle>
-        <CardDescription>A bar chart is used here to clearly compare the counts of different discrete categories.</CardDescription>
-      </CardHeader>
+      <CardHeader
+        title="Customer Type"
+        subheader="A bar chart is used here to clearly compare the counts of different discrete categories."
+      />
       <CardContent>
-        {status === 'loading' && <Skeleton className="h-[300px] w-full" />}
+        {status === 'loading' && <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 300 }}><CircularProgress /></Box>}
         {status === 'succeeded' && <CustomerTypeChart data={data} />}
-        {status === 'failed' && (
-          <div className="flex h-[300px] items-center justify-center rounded-lg border border-dashed">
-            <Alert variant="destructive" className="w-auto">
-              <AlertTriangle className="h-4 w-4" />
-              <AlertTitle>Error</AlertTitle>
-              <AlertDescription>
-                {error || 'Could not load customer type data.'}
-              </AlertDescription>
-            </Alert>
-          </div>
-        )}
+        {status === 'failed' && <Alert severity="error">{error || 'Could not load customer type data.'}</Alert>}
       </CardContent>
     </Card>
   );

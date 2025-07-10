@@ -2,30 +2,37 @@ import { CustomerTypeCard } from '@/components/dashboard/customer-type-card';
 import { AccountIndustryCard } from '@/components/dashboard/account-industry-card';
 import { TeamCard } from '@/components/dashboard/team-card';
 import { AcvRangeCard } from '@/components/dashboard/acv-range-card';
-import { Database } from 'lucide-react';
+import { Box, Typography, Grid, Container } from '@mui/material';
+import StorageIcon from '@mui/icons-material/Storage';
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center p-4 sm:p-8 md:p-12">
-      <div className="w-full max-w-7xl">
-        <header className="mb-12 text-center">
-          <div className="inline-flex items-center justify-center gap-4 mb-4">
-            <Database className="h-10 w-10 text-primary" />
-            <h1 className="text-5xl font-bold tracking-tight bg-gradient-to-r from-slate-900 to-slate-500 bg-clip-text text-transparent">
-              DataDive Dashboard
-            </h1>
-          </div>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            An interactive overview of your customer data, demonstrating various chart types for insightful data visualization.
-          </p>
-        </header>
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+    <Container maxWidth="xl" sx={{ py: 4 }}>
+      <Box sx={{ mb: 6 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 1 }}>
+          <StorageIcon sx={{ fontSize: '2.5rem', color: 'primary.main' }} />
+          <Typography variant="h3" component="h1" sx={{ fontWeight: 'bold' }}>
+            DataDive Dashboard
+          </Typography>
+        </Box>
+        <Typography variant="subtitle1" color="text.secondary">
+          An interactive overview of your customer data, demonstrating various chart types for insightful data visualization.
+        </Typography>
+      </Box>
+      <Grid container spacing={4}>
+        <Grid item xs={12} sm={6}>
           <CustomerTypeCard />
+        </Grid>
+        <Grid item xs={12} sm={6}>
           <AccountIndustryCard />
+        </Grid>
+        <Grid item xs={12} sm={6}>
           <TeamCard />
+        </Grid>
+        <Grid item xs={12} sm={6}>
           <AcvRangeCard />
-        </div>
-      </div>
-    </main>
+        </Grid>
+      </Grid>
+    </Container>
   );
 }

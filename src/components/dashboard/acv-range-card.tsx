@@ -4,11 +4,8 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/store/store';
 import { fetchAcvRangeData } from '@/store/slices/acvRangeSlice';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, Typography, Box, CircularProgress, Alert } from '@mui/material';
 import { AcvRangeChart } from "@/components/charts/acv-range-chart"
-import { AlertTriangle } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Skeleton } from '@/components/ui/skeleton';
 
 export function AcvRangeCard() {
   const dispatch = useDispatch<AppDispatch>();
@@ -22,24 +19,14 @@ export function AcvRangeCard() {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>ACV Range</CardTitle>
-        <CardDescription>A donut chart shows the proportion of each ACV range relative to the total ACV, highlighting part-to-whole relationships.</CardDescription>
-      </CardHeader>
+      <CardHeader
+        title="ACV Range"
+        subheader="A donut chart shows the proportion of each ACV range relative to the total ACV"
+      />
       <CardContent>
-        {status === 'loading' && <Skeleton className="h-[300px] w-full" />}
+        {status === 'loading' && <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 300 }}><CircularProgress /></Box>}
         {status === 'succeeded' && <AcvRangeChart data={data} />}
-        {status === 'failed' && (
-          <div className="flex h-[300px] items-center justify-center rounded-lg border border-dashed">
-            <Alert variant="destructive" className="w-auto">
-              <AlertTriangle className="h-4 w-4" />
-              <AlertTitle>Error</AlertTitle>
-              <AlertDescription>
-                {error || 'Could not load ACV range data.'}
-              </AlertDescription>
-            </Alert>
-          </div>
-        )}
+        {status === 'failed' && <Alert severity="error">{error || 'Could not load ACV range data.'}</Alert>}
       </CardContent>
     </Card>
   );
